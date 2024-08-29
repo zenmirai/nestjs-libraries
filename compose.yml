@@ -1,0 +1,16 @@
+version: '3'
+
+name: 'zenmirai-nestjs-lib-storage-infrastructure'
+
+services:
+  app:
+    container_name: zenmirai-nestjs-lib-storage-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    command: "/bin/sh -c 'bun i && bun start:dev'"
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
