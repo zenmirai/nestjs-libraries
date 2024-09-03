@@ -139,7 +139,7 @@ export class S3StorageAdapter implements StorageAdapterContract {
   };
 
   /**
-   * transform stream itno buffer
+   * transform stream into buffer
    *
    * @param stream
    * @returns Promise<Buffer>
