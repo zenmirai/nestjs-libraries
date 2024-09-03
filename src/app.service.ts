@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { StorageAdapterContract, InjectDisk } from '@zenmirai/storage';
+import { StorageService } from '@zenmirai/storage/storage.service';
 
 @Injectable()
 export class AppService {
-  constructor(
-    @InjectDisk("EXAMPLE_DISK") private disk: StorageAdapterContract,
-  ) { }
+  constructor(private disk: StorageService) {}
 
   getHello(): string {
-    this.disk.save(Buffer.from("abc"), "abc.txt");
+    this.disk.save(Buffer.from('abc'), 'abc.txt');
 
-    return "saved";
+    return 'saved';
+  }
+  async load(fileName: string) {
+    return await this.disk.load(fileName);
+  }
+
+  async getSignUrl(fileName: string) {
+    return await this.disk.getSignerUrl(fileName);
   }
 }
