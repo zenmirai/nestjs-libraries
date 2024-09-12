@@ -88,6 +88,7 @@ export class StorageModule {
     };
 
     return {
+      imports: [...(options.imports ?? [])],
       module: StorageModule,
       providers: [this.createStorageOptionsProvider(options), provider],
       exports: [provider],
