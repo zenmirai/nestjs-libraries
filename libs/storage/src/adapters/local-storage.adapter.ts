@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import { outputFile, readFile } from 'fs-extra';
 import { join } from 'path';
 import {
@@ -8,7 +7,6 @@ import {
 } from '../storage.interface';
 
 export class LocalStorageAdapter implements StorageAdapterContract {
-  private logger = new Logger(LocalStorageAdapter.name);
   private root: string = '';
 
   constructor(options: { root: string }) {
@@ -32,7 +30,7 @@ export class LocalStorageAdapter implements StorageAdapterContract {
    * @returns
    */
   private forwardError(error: Error) {
-    this.logger.error(error);
+    console.error(error);
     return Promise.reject(error);
   }
 

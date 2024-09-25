@@ -1,6 +1,5 @@
 import { GetObjectCommand, PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { Logger } from '@nestjs/common';
 import { join } from 'path';
 import { Readable } from 'stream';
 import {
@@ -12,7 +11,6 @@ import {
 import { MimeTypes } from '../storage.record';
 
 export class S3StorageAdapter implements StorageAdapterContract {
-  private logger = new Logger(S3StorageAdapter.name);
   private root: string = '';
   private client: S3;
 
@@ -48,7 +46,7 @@ export class S3StorageAdapter implements StorageAdapterContract {
    * @returns
    */
   private forwardError(error: Error) {
-    this.logger.error(error);
+    console.error(error);
     return Promise.reject(error);
   }
 

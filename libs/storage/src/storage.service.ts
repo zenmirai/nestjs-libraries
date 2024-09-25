@@ -17,7 +17,7 @@ export class StorageService {
     return await this.storage.load(fileName);
   }
 
-  async getSignerUrl(fileName: string): Promise<string> {
+  async getSignedUrl(fileName: string): Promise<string> {
     return await this.storage.getSignUrl(fileName);
   }
 }

@@ -15,6 +15,6 @@ export class AppService {
   }
 
   async getSignUrl(fileName: string) {
-    return await this.disk.getSignerUrl(fileName);
+    return await this.disk.getSignedUrl(fileName);
   }
 }
