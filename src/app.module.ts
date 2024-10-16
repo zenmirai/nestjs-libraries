@@ -3,6 +3,7 @@ import { StorageModule } from '../libs/storage/src/storage.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InjectorTestModule } from './injector-test/injector-test.module';
+import { FlipTestModule } from './flip-test/flip-test.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { InjectorTestModule } from './injector-test/injector-test.module';
       },
     }),
     InjectorTestModule,
+    FlipTestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

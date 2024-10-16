@@ -12,6 +12,8 @@
   },
   "moduleNameMapper": {
     "@zenmirai/storage/(.*)": "<rootDir>/../libs/storage/src/$1",
-    "@zenmirai/storage": "<rootDir>/../libs/storage/src"
+    "@zenmirai/storage": "<rootDir>/../libs/storage/src",
+    "flip/flip/(.*)": "<rootDir>/../libs/flip/src/$1",
+    "flip/flip": "<rootDir>/../libs/flip/src"
   }
 }

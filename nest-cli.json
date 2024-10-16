@@ -15,6 +15,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/storage/tsconfig.lib.json"
       }
+    },
+    "flip": {
+      "type": "library",
+      "root": "libs/flip",
+      "entryFile": "index",
+      "sourceRoot": "libs/flip/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/flip/tsconfig.lib.json"
+      }
     }
   }
 }

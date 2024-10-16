@@ -18,6 +18,12 @@
       ],
       "@zenmirai/storage/*": [
         "libs/storage/src/*"
+      ],
+      "flip/flip": [
+        "libs/flip/src"
+      ],
+      "flip/flip/*": [
+        "libs/flip/src/*"
       ]
     }
   }
