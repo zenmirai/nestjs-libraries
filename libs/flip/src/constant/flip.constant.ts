@@ -1,0 +1,1 @@
+export const FLIP_DECORATOR_PREFIX = 'FLIP_LIB';
