@@ -1,1 +1,1 @@
-export * from './flip-callback-service.interface'
+export * from './flip-disk.interface'

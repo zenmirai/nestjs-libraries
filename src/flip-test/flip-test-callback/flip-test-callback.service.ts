@@ -1,26 +1,37 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { FlipAcceptPaymentCallbackRequest, FlipBankInquiryCallbackRequest, FlipCallbackServiceInterface, FlipTransactionCallbackRequest } from 'flip/flip';
+import { FlipService } from 'flip/flip';
+import { FlipAcceptPaymentCallbackRequest } from './dto/flip-accept-payment-callback.dto';
+import { FlipTransactionCallbackRequest } from './dto/flip-transaction-callback-example.dto';
 
 @Injectable()
-export class FlipTestCallbackService implements FlipCallbackServiceInterface {
-
+export class FlipTestCallbackService {
   private readonly logger = new Logger(FlipTestCallbackService.name);
 
-  constructor() {}
+  constructor(private readonly flipService: FlipService) {}
+
+  async ping() {
+    return await this.flipService.getBalance();
+  }
+
+  validateCallbackToken(token: string): boolean {
+    return this.flipService.validateCallbackToken(token);
+  }
 
   handleAcceptPaymentCallback(data: FlipAcceptPaymentCallbackRequest) {
     this.logger.log('Handling Accept Payment Callback');
     this.logger.verbose(data);
-  }
 
-  handleBankInquiryCallback(data: FlipBankInquiryCallbackRequest) {
-    this.logger.log('Handling Bank Inquiry Callback');
-    this.logger.verbose(data);
+    /**
+     * Business Logic Here
+     */
   }
 
   handleTransactionCallback(data: FlipTransactionCallbackRequest) {
     this.logger.log('Handling Transaction Callback');
     this.logger.verbose(data);
-  }
 
+    /**
+     * Business Logic Here
+     */
+  }
 }

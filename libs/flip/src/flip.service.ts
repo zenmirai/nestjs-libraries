@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -6,6 +7,7 @@ import {
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { flipEndpoint } from './constant/flip-endpoint.constant';
+import { FLIP_CONFIG_OPTION_TOKEN } from './constant/flip.constant';
 import {
   FlipCreateBillWithCustomerDataRequest,
   FlipCreateBillWithCustomerDataResponse,
@@ -21,22 +23,30 @@ export class FlipService {
   private readonly validationToken: string;
   private readonly logger = new Logger(FlipService.name);
 
-  constructor(private readonly options: FlipOptionContract) {
-    this.logger.log('setting up flip payment adapter');
+  constructor(
+    @Inject(FLIP_CONFIG_OPTION_TOKEN)
+    private readonly options: FlipOptionContract,
+  ) {
+    this.logger.verbose('setting up flip payment service');
     this.secret = options.secret;
     this.validationToken = options.validationToken;
-    this.logger.log('done setup flip payment adapter');
+    this.logger.verbose('done setup flip payment service');
   }
 
-  private async send<T extends object>(
-    options: {
-      url: string;
-      method: 'GET' | 'POST';
-      body?: any;
-      idempotencyKey?: string;
-    },
-    validationObject?: ClassConstructor<T>,
-  ): Promise<T> {
+  private getAcceptPayment() {
+    // validate
+
+    // https://docs.nestjs.com/recipes/async-local-storage
+
+    return;
+  }
+
+  private async send(options: {
+    url: string;
+    method: 'GET' | 'POST';
+    body?: any;
+    idempotencyKey?: string;
+  }): Promise<unknown> {
     this.logger.log(`sending to ${options.url}`);
 
     if (options.body) {
@@ -62,32 +72,33 @@ export class FlipService {
 
     const json = (await result.json()) as unknown;
 
-    if (json && typeof json === 'object' && !Array.isArray(json)) {
-      if (!validationObject) {
-        this.logger.warn(`dto is not passed, passing JSON without validation`);
-        return json as T;
-      }
+    return json;
+  }
 
-      const object = plainToInstance(validationObject, json);
-      await validate(object).then((err) => {
-        if (err.length > 0) {
-          console.debug(err);
-          this.logger.error(`Validation error: ${JSON.stringify(err)}`);
-          throw new InternalServerErrorException(
-            `Validation error for response on ${options.url}`,
-          );
-        }
-      });
-
-      return json as T;
-    } else {
+  private async validateResponse<T extends object>(
+    response: any,
+    validationObject: ClassConstructor<T>,
+  ): Promise<T> {
+    if (!response || typeof response !== 'object' || Array.isArray(response)) {
       throw new InternalServerErrorException(
         'Response is not of expected type',
       );
     }
+
+    const object = plainToInstance(validationObject, response);
+    await validate(object).then((err) => {
+      if (err.length > 0) {
+        this.logger.error(`Validation error: ${JSON.stringify(err)}`);
+        throw Error(
+          `Validation error for response on ${validationObject.name}`,
+        );
+      }
+    });
+
+    return object;
   }
 
-  async validateCallbackToken(token: string): Promise<boolean> {
+  validateCallbackToken(token: string): boolean {
     this.logger.log(`Comparing ${token} with ${this.validationToken}`);
     if (token !== this.validationToken) {
       this.logger.warn('Token is invalid');
@@ -98,14 +109,20 @@ export class FlipService {
     return true;
   }
 
+  /**
+   * Get current balance on flip account
+   * @returns {Promise<FlipGetBalanceResponse>}
+   */
   async getBalance(): Promise<FlipGetBalanceResponse> {
     this.logger.log('getting current balance');
 
-    const result = await this.send(
-      {
-        url: flipEndpoint.general.balance,
-        method: 'GET',
-      },
+    const response = await this.send({
+      url: flipEndpoint.general.balance,
+      method: 'GET',
+    });
+
+    const result = await this.validateResponse(
+      response,
       FlipGetBalanceResponse,
     );
 
@@ -113,6 +130,10 @@ export class FlipService {
     return result;
   }
 
+  /**
+   * Send Money to another account, receives callback on success/failure
+   * @returns {Promise<FlipCreateDisbursementResponse>}
+   */
   async createDisbursement(
     data: FlipCreateDisbursementRequest,
   ): Promise<FlipCreateDisbursementResponse> {
@@ -120,13 +141,15 @@ export class FlipService {
 
     const { idempotency_key, ...body } = data;
 
-    const result = await this.send(
-      {
-        url: flipEndpoint.disbursement.create,
-        method: 'POST',
-        body: body,
-        idempotencyKey: idempotency_key,
-      },
+    const response = await this.send({
+      url: flipEndpoint.disbursement.create,
+      method: 'POST',
+      body: body,
+      idempotencyKey: idempotency_key,
+    });
+
+    const result = await this.validateResponse(
+      response,
       FlipCreateDisbursementResponse,
     );
 
@@ -134,19 +157,23 @@ export class FlipService {
     return result;
   }
 
+  /**
+   * Requests Money from another account, receives callback on success/failure
+   * @returns {Promise<FlipCreateBillWithCustomerDataResponse>}
+   */
   async createBill(
     data: FlipCreateBillWithCustomerDataRequest,
   ): Promise<FlipCreateBillWithCustomerDataResponse> {
     this.logger.log('Creating bill');
 
-    const payload = new FlipCreateBillWithCustomerDataRequest(data);
+    const response = await this.send({
+      url: flipEndpoint.bill.create,
+      method: 'POST',
+      body: data,
+    });
 
-    const result = await this.send(
-      {
-        url: flipEndpoint.bill.create,
-        method: 'POST',
-        body: payload,
-      },
+    const result = await this.validateResponse(
+      response,
       FlipCreateBillWithCustomerDataResponse,
     );
 

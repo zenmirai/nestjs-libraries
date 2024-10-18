@@ -1,10 +1,7 @@
-import { Body, Controller, HttpCode, Logger, Post } from '@nestjs/common';
-import {
-  FlipAcceptPaymentCallbackRequest,
-  FlipBankInquiryCallbackRequest,
-  FlipTransactionCallbackRequest,
-} from 'flip/flip';
+import { Body, Controller, Get, HttpCode, Logger, Post } from '@nestjs/common';
 import { FlipTestCallbackService } from './flip-test-callback.service';
+import { FlipAcceptPaymentCallbackRequest } from './dto/flip-accept-payment-callback.dto';
+import { FlipTransactionCallbackRequest } from './dto/flip-transaction-callback-example.dto';
 
 @Controller('flip-test-callback')
 export class FlipTestCallbackController {
@@ -14,11 +11,9 @@ export class FlipTestCallbackController {
     private readonly flipTestCallbackService: FlipTestCallbackService,
   ) {}
 
-  @HttpCode(200)
-  @Post('bank-inquiry')
-  async bankInquiryCallback(@Body() req: FlipBankInquiryCallbackRequest) {
-    this.logger.log('start');
-    this.flipTestCallbackService.handleBankInquiryCallback(req);
+  @Get('ping')
+  async ping() {
+    return await this.flipTestCallbackService.ping();
   }
 
   @HttpCode(200)

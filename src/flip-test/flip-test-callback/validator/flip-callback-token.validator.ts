@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { FlipService } from '../flip.service';
+import { FlipService } from 'flip/flip';
 
 @ValidatorConstraint({ async: true })
 @Injectable()

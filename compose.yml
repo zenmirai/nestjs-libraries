@@ -11,6 +11,6 @@ services:
       target: development
     command: "/bin/sh -c 'bun i && bun start:dev'"
     ports:
-      - '3000:3000'
+      - '4000:4000'
     volumes:
       - .:/app
