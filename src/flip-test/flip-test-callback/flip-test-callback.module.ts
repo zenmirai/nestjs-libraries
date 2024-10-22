@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { FlipModule } from 'flip/flip';
-import { FlipTestCallbackModule } from './flip-test-callback/flip-test-callback.module';
-import { FlipTestController } from './flip-test.controller';
-import { FlipTestService } from './flip-test.service';
+import { FlipTestCallbackController } from './flip-test-callback.controller';
+import { FlipTestCallbackService } from './flip-test-callback.service';
+import { FlipCallbackTokenValidator } from './validator/flip-callback-token.validator';
 
 @Module({
   imports: [
-    FlipTestCallbackModule,
     FlipModule.registerAsync({
       global: false,
+      imports: [FlipTestCallbackModule],
       provide: FlipModule,
       async useFactory() {
         return {
@@ -21,7 +21,8 @@ import { FlipTestService } from './flip-test.service';
       },
     }),
   ],
-  controllers: [FlipTestController],
-  providers: [FlipTestService],
+  controllers: [FlipTestCallbackController],
+  providers: [FlipTestCallbackService, FlipCallbackTokenValidator],
+  exports: [FlipCallbackTokenValidator],
 })
-export class FlipTestModule {}
+export class FlipTestCallbackModule {}
