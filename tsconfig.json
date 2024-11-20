@@ -24,6 +24,12 @@
       ],
       "flip/flip/*": [
         "libs/flip/src/*"
+      ],
+      "@zenmirai/nestjs-logger-module": [
+        "libs/logger/src"
+      ],
+      "@zenmirai/nestjs-logger-module/*": [
+        "libs/logger/src/*"
       ]
     }
   }
