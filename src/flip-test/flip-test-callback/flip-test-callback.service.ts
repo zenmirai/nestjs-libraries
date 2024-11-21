@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { FlipService } from 'flip/flip';
+import { FlipService } from '@zenmirai/nest-flip';
 import { FlipAcceptPaymentCallbackRequest } from './dto/flip-accept-payment-callback.dto';
 import { FlipTransactionCallbackRequest } from './dto/flip-transaction-callback-example.dto';
 

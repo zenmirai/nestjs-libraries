@@ -79,8 +79,9 @@
     ],
     "moduleNameMapper": {
       "^@zenmirai/storage(|/.*)$": "<rootDir>/libs/storage/src/$1",
-      "^flip/flip(|/.*)$": "<rootDir>/libs/flip/src/$1",
-      "^@zenmirai/logger(|/.*)$": "<rootDir>/libs/logger/src/$1"
+      "^@zenmirai/nest-flip(|/.*)$": "<rootDir>/libs/flip/src/$1",
+      "^@zenmirai/logger(|/.*)$": "<rootDir>/libs/logger/src/$1",
+      "^@zenmirai/notification(|/.*)$": "<rootDir>/libs/notification/src/$1"
     }
   }
 }

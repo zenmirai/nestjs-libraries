@@ -19,17 +19,23 @@
       "@zenmirai/storage/*": [
         "libs/storage/src/*"
       ],
-      "flip/flip": [
+      "@zenmirai/nest-flip": [
         "libs/flip/src"
       ],
-      "flip/flip/*": [
+      "@zenmirai/nest-flip/*": [
         "libs/flip/src/*"
       ],
-      "@zenmirai/nestjs-logger-module": [
+      "@zenmirai/nest-logger": [
         "libs/logger/src"
       ],
-      "@zenmirai/nestjs-logger-module/*": [
+      "@zenmirai/nest-logger/*": [
         "libs/logger/src/*"
+      ],
+      "@zenmirai/nest-notification": [
+        "libs/notification/src"
+      ],
+      "@zenmirai/nest-notification/*": [
+        "libs/notification/src/*"
       ]
     }
   }

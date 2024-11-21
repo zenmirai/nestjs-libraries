@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
 import { FlipTestService } from './flip-test.service';
-import { FlipCreateBillWithCustomerDataRequest, FlipCreateBillWithCustomerDataResponse, FlipCreateDisbursementRequest, FlipCreateDisbursementResponse } from 'flip/flip';
+import { FlipCreateBillWithCustomerDataRequest, FlipCreateBillWithCustomerDataResponse, FlipCreateDisbursementRequest, FlipCreateDisbursementResponse } from '@zenmirai/nest-flip';
 
 @Controller('flip-test')
 export class FlipTestController {

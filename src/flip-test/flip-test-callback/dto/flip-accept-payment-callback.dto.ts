@@ -1,7 +1,7 @@
 import { Transform, Type } from 'class-transformer';
 import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { FlipAcceptPaymentCallbackData } from './flip-accept-payment-callback-data.dto';
-import { FlipAcceptPaymentCallbackRequestExample } from 'flip/flip';
+import { FlipAcceptPaymentCallbackRequestExample } from '@zenmirai/nest-flip';
 import { IsValidFlipCallbackToken } from '../validator/flip-callback-token.validator';
 
 export class FlipAcceptPaymentCallbackRequest implements FlipAcceptPaymentCallbackRequestExample {

@@ -5,7 +5,7 @@ import {
   FlipCreateDisbursementRequest,
   FlipCreateDisbursementResponse,
   FlipService,
-} from 'flip/flip';
+} from '@zenmirai/nest-flip';
 
 @Injectable()
 export class FlipTestService {

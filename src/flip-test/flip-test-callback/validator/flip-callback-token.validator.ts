@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { FlipService } from 'flip/flip';
+import { FlipService } from '@zenmirai/nest-flip';
 
 @ValidatorConstraint({ async: true })
 @Injectable()

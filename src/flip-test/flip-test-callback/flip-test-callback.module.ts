@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { FlipModule } from 'flip/flip';
+import { FlipModule } from '@zenmirai/nest-flip';
 import { FlipTestCallbackController } from './flip-test-callback.controller';
 import { FlipTestCallbackService } from './flip-test-callback.service';
 import { FlipCallbackTokenValidator } from './validator/flip-callback-token.validator';
