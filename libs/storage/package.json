@@ -1,11 +1,6 @@
 {
-  "name": "@zenmirai/nestjs-storage",
+  "name": "@zenmirai/nest-storage",
+  "description": "better and easy manage storage",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsc"
-  }
+  "main": "src/index.js"
 }
