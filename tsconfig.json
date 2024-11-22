@@ -13,10 +13,10 @@
     "incremental": true,
     "skipLibCheck": true,
     "paths": {
-      "@zenmirai/storage": [
+      "@zenmirai/nest-storage": [
         "libs/storage/src"
       ],
-      "@zenmirai/storage/*": [
+      "@zenmirai/nest-storage/*": [
         "libs/storage/src/*"
       ],
       "@zenmirai/nest-flip": [

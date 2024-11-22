@@ -11,8 +11,8 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "@zenmirai/storage/(.*)": "<rootDir>/../libs/storage/src/$1",
-    "@zenmirai/storage": "<rootDir>/../libs/storage/src",
+    "@zenmirai/nest-storage/(.*)": "<rootDir>/../libs/storage/src/$1",
+    "@zenmirai/nest-storage": "<rootDir>/../libs/storage/src",
     "@zenmirai/nest-flip/(.*)": "<rootDir>/../libs/flip/src/$1",
     "@zenmirai/nest-flip": "<rootDir>/../libs/flip/src",
     "@zenmirai/logger/(.*)": "<rootDir>/../libs/logger/src/$1",

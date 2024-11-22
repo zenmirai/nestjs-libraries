@@ -22,45 +22,6 @@ import { StorageService } from './storage.service';
 
 @Module({})
 export class StorageModule {
-  static forRoot(options: {
-    imports?: ModuleMetadata['imports'];
-    inject?: ModuleMetadata['providers'];
-  }): DynamicModule {
-    return {
-      module: StorageModule,
-      ...options,
-    };
-  }
-
-  /**
-   * Register new storage disk
-   *
-   * @param options {DiskOptions}
-   * @returns {DynamicModule}
-   */
-  static register(options: DiskOptions): DynamicModule {
-    return {
-      providers: [
-        {
-          provide: `${STORAGE_DECORATOR_PREFIX}${options.name}`,
-          useFactory(...args) {
-            if (options.adapter.type === 's3') {
-              const adapter = new S3StorageAdapter(options.adapter);
-              return new StorageService(adapter);
-            }
-
-            const adapter = new LocalStorageAdapter({
-              root: options.name,
-            });
-            return new StorageService(adapter);
-          },
-        },
-      ],
-      exports: [`${STORAGE_DECORATOR_PREFIX}${options.name}`],
-      module: StorageModule,
-    };
-  }
-
   /**
    * Register new storage disk with async options
    *
@@ -73,18 +34,19 @@ export class StorageModule {
      * Creating a provider based on StorageService that injected by options.name
      */
     const provider: Provider = {
-      provide: StorageService,
+      provide: `${STORAGE_DECORATOR_PREFIX}${options.name}`,
       useFactory: async (options: StorageOptionContract) => {
-        if (options.type === 's3') {
+        if (options.type == 'local') {
+          const adapter = new LocalStorageAdapter({ root: options.path });
+          return new StorageService(adapter);
+        } else if (options.type === 's3') {
           const adapter = new S3StorageAdapter(options);
           return new StorageService(adapter);
         }
 
-        const adapter = new LocalStorageAdapter({ root: options.path });
-        const storageService = new StorageService(adapter);
-        return storageService;
+        throw Error("can't factory drive")
       },
-      inject: [`${STORAGE_DECORATOR_PREFIX}${options.name}`],
+      inject: [`${STORAGE_DECORATOR_PREFIX}_CONFIG`],
     };
 
     return {
@@ -110,43 +72,21 @@ export class StorageModule {
      */
     if (options.useFactory) {
       return {
-        provide: `${STORAGE_DECORATOR_PREFIX}${options.name}`,
-        useFactory: options.useFactory,
+        provide: `${STORAGE_DECORATOR_PREFIX}_CONFIG`,
         inject: options.inject || [],
+        useFactory: options.useFactory,
       };
     }
 
     /**
-     * @if options.useClass || options.useExisting
-     * Create a provider using useClass or useExisting that passed dynamically
-     */
-    if (options.useClass || options.useExisting) {
-      const inject = [
-        (options.useClass ||
-          options.useExisting) as Type<DiskModuleOptionsFactory>,
-      ];
-
-      return {
-        provide: `${STORAGE_DECORATOR_PREFIX}${options.name}`,
-        useFactory: async (optionsFactory: DiskModuleOptionsFactory) =>
-          optionsFactory.createOptions(),
-        inject,
-      };
-    }
-
-    /**
-     * default provider
-     * Create a provider by default settings
+     * Default configuration
      */
     return {
-      provide: `${STORAGE_DECORATOR_PREFIX}${options.name}`,
-      useFactory: async (): Promise<StorageOptionContract> => {
-        return {
-          type: STORAGE_DEFAULT_TYPE,
-          path: STORAGE_DEFAULT_PATH,
-        };
-      },
-      inject: options.inject || [],
+      provide: `${STORAGE_DECORATOR_PREFIX}_CONFIG`,
+      useValue: {
+        type: STORAGE_DEFAULT_TYPE,
+        path: STORAGE_DEFAULT_PATH,
+      }
     };
   }
 }

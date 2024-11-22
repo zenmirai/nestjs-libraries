@@ -1,22 +1,12 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Redirect } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
+  constructor() { }
+  
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @Get(`load/:fileName`)
-  load(@Param('fileName') fileName: string) {
-    return this.appService.load(fileName);
-  }
-
-  @Get(`url/:fileName`)
-  getUrl(@Param('fileName') fileName: string) {
-    return this.appService.getSignUrl(fileName);
+  @Redirect('https://github.com/zenmirai/nestjs-libraries/blob/master/CONTRIBUTING.md')
+  welcome() {
+    return;
   }
 }

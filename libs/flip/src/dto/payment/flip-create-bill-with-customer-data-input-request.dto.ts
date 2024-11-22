@@ -1,82 +1,78 @@
-import { IsIn, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-
 /**
- * FlipCreateBillWithCustomerDataRequest create Bill with customer data
- * Customer Only need to choose payment method (NO NEED TO INPUT EMAIL & NAME)
+ * Class that guide data type when wanna create bill with costumer
  */
 export class FlipCreateBillWithCustomerDataRequest {
 
-  @IsString()
-  @IsNotEmpty()
-  title: string; // The title of the bill
-
-  @IsIn(['SINGLE'])
-  @IsString()
-  @IsNotEmpty()
-  type: 'SINGLE'; // Bill type
-  
-  @IsNumber()
-  @IsNotEmpty()
-  amount: number; // Payment amount, minimum Rp10.000
-  
   /**
-   * TODO: Validate date format
-   * MUST BE FORMATTED: YYYY-MM-DD HH:mm
+   * The title of the bill
    */
-  @IsString()
-  @IsOptional()
-  expired_date?: string; // Bill expiry date in format: YYYY-MM-DD HH:mm
-  
-  /**
-   * TODO: Validate URL
-   */
-  @IsString()
-  @IsOptional()
-  redirect_url?: string; // Redirect URL after payment is success
+  title: string;
 
   /**
-   * @default 0
+   * Bill type
    */
-  @IsIn([0, 1])
-  @IsOptional()
-  is_address_required?: 0 | 1; // Flag if user needs to input their address
+  type: 'SINGLE';
   
   /**
-   * @default 0
+   * Payment amount, minimum Rp10.000
    */
-  @IsIn([0, 1])
-  @IsOptional()
-  is_phone_number_required?: 0 | 1; // Flag if user needs to input their phone number
+  amount: number; 
   
-  @IsIn([2])
-  @IsNumber()
-  @IsNotEmpty()
-  step: 2; // Step for the payment flow
+  /**
+   * Bill expiry date in format: YYYY-MM-DD HH:mm
+   */
+  expired_date?: string;
   
-  @IsString()
-  @IsNotEmpty()
-  sender_name: string; // Name of the Customer
-  
-  @IsString()
-  @IsNotEmpty()
-  sender_email: string; // Email of the Customer
-  
-  @IsString()
-  @IsOptional()
-  sender_phone_number?: string; // Phone number of the Customer
-  
-  @IsString()
-  @IsOptional()
-  sender_address?: string; // Address of the Customer
-  
-  @IsString()
-  @IsOptional()
-  sender_bank?: string; // Bank that is used for the payment
+  /**
+   *  Redirect URL after payment is success
+   */
+  redirect_url?: string;
 
-  @IsIn(['bank_account', 'virtual_account', 'wallet_account', 'online_to_offline_account', 'credit_card_account'])
-  @IsString()
-  @IsOptional()
-  sender_bank_type?: 'bank_account' | 'virtual_account' | 'wallet_account' | 'online_to_offline_account' | 'credit_card_account'; // Type of bank account
+  /**
+   * Flag if user needs to input their address
+   */
+  is_address_required?: 0 | 1;
+  
+  /**
+   * Flag if user needs to input their phone number
+   */
+  is_phone_number_required?: 0 | 1;
+  
+  /**
+   * Step for the payment flow
+   */
+  step: 2;
+  
+  /**
+   * Name of the Customer
+   */
+  sender_name: string;
+  
+  /**
+   * Email of the Customer
+   */
+  sender_email: string;
+  
+  /**
+   * Phone number of the Customer
+   */
+  sender_phone_number?: string;
+  
+  /**
+   * Address of the Customer
+   */
+  sender_address?: string; 
+  
+
+  /**
+   * Bank that is used for the payment
+   */
+  sender_bank?: string;
+
+  /**
+   * Type of bank account
+   */
+  sender_bank_type?: 'bank_account' | 'virtual_account' | 'wallet_account' | 'online_to_offline_account' | 'credit_card_account';
 
   constructor(args: FlipCreateBillWithCustomerDataRequest){
     Object.assign(this, args);

@@ -7,7 +7,7 @@ import {
 } from '../storage.interface';
 
 export class LocalStorageAdapter implements StorageAdapterContract {
-  private root: string = '';
+  private readonly root: string = '';
 
   constructor(options: { root: string }) {
     this.root = options.root;
@@ -73,7 +73,7 @@ export class LocalStorageAdapter implements StorageAdapterContract {
    * @param fileName
    * @returns string
    */
-  getSignUrl(filename: string): string {
+  getSignedUrl(filename: string): string {
     return '';
   }
 }

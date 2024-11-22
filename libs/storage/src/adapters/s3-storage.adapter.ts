@@ -11,8 +11,8 @@ import {
 import { MimeTypes } from '../storage.record';
 
 export class S3StorageAdapter implements StorageAdapterContract {
-  private root: string = '';
-  private client: S3;
+  private readonly root: string = '';
+  private readonly client: S3;
 
   constructor(private options: StorageConfigS3) {
     this.root = this.options.path;

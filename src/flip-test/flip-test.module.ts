@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { FlipModule } from '@zenmirai/nest-flip';
 import { FlipTestCallbackModule } from './flip-test-callback/flip-test-callback.module';
 import { FlipTestController } from './flip-test.controller';
-import { FlipTestService } from './flip-test.service';
 
 @Module({
   imports: [
@@ -22,6 +21,5 @@ import { FlipTestService } from './flip-test.service';
     }),
   ],
   controllers: [FlipTestController],
-  providers: [FlipTestService],
 })
 export class FlipTestModule {}
