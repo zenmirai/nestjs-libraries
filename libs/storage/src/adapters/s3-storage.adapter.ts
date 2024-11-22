@@ -103,7 +103,7 @@ export class S3StorageAdapter implements StorageAdapterContract {
    * @param fileName
    * @returns Promise<string>
    */
-  async getSignUrl(fileName: string): Promise<string> {
+  async getSignedUrl(fileName: string): Promise<string> {
     const fullpath = this.getFullPathFromFileName(fileName);
 
     const params = new GetObjectCommand({

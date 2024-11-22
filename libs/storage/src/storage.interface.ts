@@ -26,7 +26,7 @@ export interface StorageAdapterContract {
    * get signed URL to download
    *
    */
-  getSignUrl?(fileName: string): Promise<string> | string;
+  getSignedUrl?(fileName: string): Promise<string> | string;
 
   /**
    * Save source file to disk

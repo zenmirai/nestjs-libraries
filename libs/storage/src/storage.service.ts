@@ -18,6 +18,6 @@ export class StorageService {
   }
 
   async getSignedUrl(fileName: string): Promise<string> {
-    return await this.storage.getSignUrl(fileName);
+    return await this.storage.getSignedUrl(fileName);
   }
 }
